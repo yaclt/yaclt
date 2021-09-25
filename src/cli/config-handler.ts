@@ -8,9 +8,13 @@ import { Logger } from "../utils/logger";
 
 const supportedConfigFilenames = [
   "yacltrc.yaml",
+  ".yacltrc.yaml",
   "yacltrc.yml",
+  ".yacltrc.yml",
   "yacltrc.json",
+  ".yacltrc.json",
   "yacltrc.js",
+  ".yacltrc.js",
 ];
 
 const parseConfig = (
