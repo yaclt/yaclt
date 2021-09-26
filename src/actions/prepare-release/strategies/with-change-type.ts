@@ -6,7 +6,7 @@ export interface EntryGroup {
   items: string[];
 }
 
-export class WithChangeTypeStrategy extends PrepareReleaseStrategy {
+export class WithChangeTypeStrategy implements PrepareReleaseStrategy {
   private entryGroups: EntryGroup[] = [];
   private changeTypeTemplate: HandlebarsTemplateDelegate<
     Record<string, unknown>
@@ -17,12 +17,11 @@ export class WithChangeTypeStrategy extends PrepareReleaseStrategy {
     changeTypeTemplate: HandlebarsTemplateDelegate<Record<string, unknown>>,
     changeTypes: string[]
   ) {
-    super();
     this.changeTypeTemplate = changeTypeTemplate;
     this.changeTypes = changeTypes;
   }
 
-  public override processLine(line: string): void {
+  public processLine(line: string): void {
     const lineChangeType: string | undefined = this.changeTypes.find(
       (changeType: string) =>
         line.includes(this.changeTypeTemplate({ changeType }))
@@ -42,7 +41,7 @@ export class WithChangeTypeStrategy extends PrepareReleaseStrategy {
     }
   }
 
-  public override generate(template: string, releaseNumber: string): string {
+  public generate(template: string, releaseNumber: string): string {
     const handlebarsTemplate = compileTemplate(template);
     return handlebarsTemplate({
       releaseNumber,

@@ -1,4 +1,4 @@
-export abstract class PrepareReleaseStrategy {
-  abstract processLine(line: string): void;
-  abstract generate(template: string, releaseNumber: string): string;
+export interface PrepareReleaseStrategy {
+  processLine(line: string): void;
+  generate(template: string, releaseNumber: string): string;
 }
