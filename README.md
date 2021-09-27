@@ -26,7 +26,17 @@ The full set of options for each command can be found in [COMMANDS.md](./docs/CO
 ## Configuration
 
 All command line flags and arguments can be specified in a configuration file. Most likely you will want most of your options to be specified in a configuration file.
-Supported file names are `yacltrc.yml`, `yacltrc.yaml`, `yacltrc.json`, and `yacltrc.js` (`.js` config must use CommonJS format, e.g. `module.exports =`). Options passed
+Supported file names are:
+- `yacltrc.yml`
+- `.yacltrc.yml`
+- `yacltrc.yaml`
+- `.yacltrc.yaml`
+- `yacltrc.json`
+- `.yacltrc.json`
+- `yacltrc.js`
+- `.yacltrc.js`
+
+`.js` config must use CommonJS format, e.g. `module.exports =`. Options passed
 on the command line will override options from the configuration file if present.
 
 If the working directory is inside a git repository, the tree will be traversed to the git root, using the first valid configuration file that is found. If no configuration file is found in the repo,
