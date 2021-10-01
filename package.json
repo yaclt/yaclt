@@ -14,7 +14,7 @@
     "logger-test": "ts-node ./logger-colors-test.ts",
     "prettier": "pretty-quick --staged",
     "lint": "eslint src/ --max-warnings=0",
-    "validate-changelogs": "./dist/index.js validate"
+    "validate-changelogs": "npx yaclt validate"
   },
   "repository": {
     "type": "git",

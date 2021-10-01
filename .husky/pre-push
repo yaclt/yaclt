@@ -1,0 +1,8 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+if [ "$(git branch --show-current)" = 'master' ]; then
+  exit 0
+fi
+
+yarn validate-changelogs
