@@ -1,9 +1,7 @@
 import { compile } from "handlebars";
 import { compileTemplate } from "./template-utils";
 
-jest.mock("handlebars", () => {
-  return { compile: jest.fn() };
-});
+jest.mock("handlebars", () => ({ compile: jest.fn() }));
 
 describe("tests compileTemplate", () => {
   beforeEach(() => {
@@ -11,8 +9,8 @@ describe("tests compileTemplate", () => {
   });
 
   test("should call compile with noescape alone when no options are passed", () => {
-    let template = "hello";
-    let options: CompileOptions = { noEscape: true };
+    const template = "hello";
+    const options: CompileOptions = { noEscape: true };
 
     compileTemplate("hello");
 
@@ -20,9 +18,9 @@ describe("tests compileTemplate", () => {
   });
 
   test("should call compile with noescape and given options when options are passed", () => {
-    let template = "hello";
-    let options: CompileOptions = { noEscape: true, strict: true };
-    let inputOptions: CompileOptions = { strict: true };
+    const template = "hello";
+    const options: CompileOptions = { noEscape: true, strict: true };
+    const inputOptions: CompileOptions = { strict: true };
 
     compileTemplate("hello", inputOptions);
 
