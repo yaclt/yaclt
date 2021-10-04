@@ -1,3 +1,19 @@
+# Release 2.5.0 - 2021-10-04
+
+## IMPROVED
+
+- [IMPROVED] Change `PrepareReleaseStrategy` abstract class to an interface {#131}
+- [IMPROVED] Allowed config files to be "hidden files" by starting the name with a dot {#164}
+- [IMPROVED] Add pre-push git hook to validate changelogs {#142}
+- [IMPROVED] Dependabot: Bump ansi-regex from 5.0.0 to 5.0.1 {#174}
+- [IMPROVED] Configured pipeline for test and refactored test files {#30}
+
+## NEW
+
+- [NEW] Enabled jest and added test for string-utils, template-utils {#30}
+
+---
+
 # Release 2.4.1 - 2021-09-20
 
 ## IMPROVED
