@@ -6,31 +6,29 @@ import {
   kebabToCamelCase,
 } from "./string-utils";
 
-jest.mock("./template-utils", () => {
-  return { compileTemplate: jest.fn() };
-});
+jest.mock("./template-utils", () => ({ compileTemplate: jest.fn() }));
 
 describe("tests regexIndexOf", () => {
   test("should return -1 when the regular expression is not found within given range", () => {
-    let expected = -1;
+    const expected = -1;
 
-    let actual = regexIndexOf("hello-r", RegExp("^r"), 1);
-
-    expect(actual).toBe(expected);
-  });
-
-  test("should return 1 when the regular expression is satisfied at the starting index", () => {
-    let expected = 1;
-
-    let actual = regexIndexOf("hello-r", RegExp("^e"), 1);
+    const actual = regexIndexOf("hello-r", new RegExp("^r"), 1);
 
     expect(actual).toBe(expected);
   });
 
-  test("should return 5 when the regular expression is satisfied at the 4th index", () => {
-    let expected = 5;
+  test("should return 1 when the regular expression is satisfied at the starting index and starting position is 1", () => {
+    const expected = 1;
 
-    let actual = regexIndexOf("hello-r", RegExp("-"), 1);
+    const actual = regexIndexOf("hello-r", new RegExp("^e"), 1);
+
+    expect(actual).toBe(expected);
+  });
+
+  test("should return 5 when the regular expression is satisfied at the 4th index and starting position is 1", () => {
+    const expected = 5;
+
+    const actual = regexIndexOf("hello-r", new RegExp("-"), 1);
 
     expect(actual).toBe(expected);
   });
@@ -41,11 +39,9 @@ describe("tests formatToChangeTypeTemplate", () => {
     jest.clearAllMocks();
   });
   test("should return undefined when there is no matches for changeTypeTemplate", () => {
-    let expected = undefined;
+    const actual = formatToChangeTypeTemplate("nothing in place");
 
-    let actual = formatToChangeTypeTemplate("nothing in place");
-
-    expect(actual).toBe(expected);
+    expect(actual).toBeUndefined();
   });
 
   test("should call compileTemplate with {{changeType}}N when the character next to changeType is N", () => {
@@ -67,25 +63,25 @@ describe("tests formatToChangeTypeTemplate", () => {
 
 describe("tests camelToKebabCase", () => {
   test("should return empty string when the input is empty", () => {
-    let expected = "";
+    const expected = "";
 
-    let actual = camelToKebabCase("");
+    const actual = camelToKebabCase("");
 
     expect(actual).toBe(expected);
   });
 
   test("should return string with - inbetween for camelcase string", () => {
-    let expected = "hello-world";
+    const expected = "hello-world";
 
-    let actual = camelToKebabCase("helloWorld");
+    const actual = camelToKebabCase("helloWorld");
 
     expect(actual).toBe(expected);
   });
 
   test("should return same string when there is no capital letter inbetween", () => {
-    let expected = "hello";
+    const expected = "hello";
 
-    let actual = camelToKebabCase("hello");
+    const actual = camelToKebabCase("hello");
 
     expect(actual).toBe(expected);
   });
@@ -93,33 +89,33 @@ describe("tests camelToKebabCase", () => {
 
 describe("tests kebabToCamelCase", () => {
   test("should return empty string when the input is empty", () => {
-    let expected = "";
+    const expected = "";
 
-    let actual = kebabToCamelCase("");
+    const actual = kebabToCamelCase("");
 
     expect(actual).toBe(expected);
   });
 
   test("should return camelcase string for kebabcase string with capital letter after hyphen", () => {
-    let expected = "helloWorld";
+    const expected = "helloWorld";
 
-    let actual = kebabToCamelCase("hello-World");
+    const actual = kebabToCamelCase("hello-World");
 
     expect(actual).toBe(expected);
   });
 
   test("should return camelcase string after capitalizing first letters for kebabcase input", () => {
-    let expected = "helloWorld";
+    const expected = "helloWorld";
 
-    let actual = kebabToCamelCase("hello-world");
+    const actual = kebabToCamelCase("hello-world");
 
     expect(actual).toBe(expected);
   });
 
   test("should return same string when there is no - inbetween", () => {
-    let expected = "hello";
+    const expected = "hello";
 
-    let actual = camelToKebabCase("hello");
+    const actual = kebabToCamelCase("hello");
 
     expect(actual).toBe(expected);
   });
