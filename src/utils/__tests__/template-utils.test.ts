@@ -1,5 +1,5 @@
 import { compile } from "handlebars";
-import { compileTemplate } from "./template-utils";
+import { compileTemplate } from "../template-utils";
 
 jest.mock("handlebars", () => ({ compile: jest.fn() }));
 

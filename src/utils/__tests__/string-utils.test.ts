@@ -1,12 +1,12 @@
-import { compileTemplate } from "./template-utils";
 import {
-  regexIndexOf,
-  formatToChangeTypeTemplate,
   camelToKebabCase,
+  formatToChangeTypeTemplate,
   kebabToCamelCase,
-} from "./string-utils";
+  regexIndexOf,
+} from "../string-utils";
+import { compileTemplate } from "../template-utils";
 
-jest.mock("./template-utils", () => ({ compileTemplate: jest.fn() }));
+jest.mock("../template-utils", () => ({ compileTemplate: jest.fn() }));
 
 describe("tests regexIndexOf", () => {
   test("should return -1 when the regular expression is not found within given range", () => {
