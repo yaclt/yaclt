@@ -3,7 +3,7 @@ import { compileTemplate } from "../template-utils";
 
 jest.mock("handlebars", () => ({ compile: jest.fn() }));
 
-describe("tests compileTemplate", () => {
+describe("compileTemplate", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
