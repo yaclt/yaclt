@@ -1,14 +1,14 @@
-import { compileTemplate } from "./template-utils";
 import {
-  regexIndexOf,
-  formatToChangeTypeTemplate,
   camelToKebabCase,
+  formatToChangeTypeTemplate,
   kebabToCamelCase,
-} from "./string-utils";
+  regexIndexOf,
+} from "../string-utils";
+import { compileTemplate } from "../template-utils";
 
-jest.mock("./template-utils", () => ({ compileTemplate: jest.fn() }));
+jest.mock("../template-utils", () => ({ compileTemplate: jest.fn() }));
 
-describe("tests regexIndexOf", () => {
+describe("regexIndexOf", () => {
   test("should return -1 when the regular expression is not found within given range", () => {
     const expected = -1;
 
@@ -34,7 +34,7 @@ describe("tests regexIndexOf", () => {
   });
 });
 
-describe("tests formatToChangeTypeTemplate", () => {
+describe("formatToChangeTypeTemplate", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -61,7 +61,7 @@ describe("tests formatToChangeTypeTemplate", () => {
   });
 });
 
-describe("tests camelToKebabCase", () => {
+describe("camelToKebabCase", () => {
   test("should return empty string when the input is empty", () => {
     const expected = "";
 
@@ -87,7 +87,7 @@ describe("tests camelToKebabCase", () => {
   });
 });
 
-describe("tests kebabToCamelCase", () => {
+describe("kebabToCamelCase", () => {
   test("should return empty string when the input is empty", () => {
     const expected = "";
 
