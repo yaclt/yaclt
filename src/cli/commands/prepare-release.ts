@@ -13,6 +13,7 @@ export interface PrepareReleaseCommandOptions extends GlobalArgv {
   releaseNumber: string;
   validationPattern: string;
   releaseBranchPattern?: string;
+  edit?: boolean;
   preValidate?: Hook;
   postValidate?: Hook;
   prePrepare?: Hook;
@@ -57,6 +58,13 @@ export const PrepareReleaseCommand: CommandModule<
         "A pattern to generate a release branch name which will be automatically checked out before preparing the release.",
       demandOption: false,
     },
+    edit: {
+      describe:
+        "After compiling the gathered changelogs, open the chagelog file in `$EDITOR`, if `$EDITOR` is defined",
+      type: "boolean",
+      default: false,
+      demandOption: false,
+    },
     ...ValidateCommandOptions,
     prePrepare: {
       describe:
@@ -82,6 +90,7 @@ export const PrepareReleaseCommand: CommandModule<
         format: argv.format,
         validationPattern: argv.validationPattern,
         releaseBranchPattern: argv.releaseBranchPattern,
+        edit: argv.edit ?? false,
         preValidate: argv.preValidate,
         postValidate: argv.postValidate,
         prePrepare: argv.prePrepare,

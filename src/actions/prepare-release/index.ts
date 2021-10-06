@@ -6,6 +6,7 @@ import { readLines, touchFile } from "../../utils/file-utils";
 import { handleHooks, Hook } from "../../utils/hook-handler";
 import { Logger } from "../../utils/logger";
 import { formatToChangeTypeTemplate } from "../../utils/string-utils";
+import { openInEditor } from "../../utils/file-utils";
 import { compileTemplate } from "../../utils/template-utils";
 import { ActionOptions } from "../action-options";
 import { ActionValidate } from "../validate";
@@ -19,6 +20,7 @@ export interface ActionPrepareReleaseOptions extends ActionOptions {
   changeTypes: string[];
   validationPattern: string;
   releaseBranchPattern?: string;
+  edit: boolean;
   preValidate?: Hook;
   postValidate?: Hook;
   prePrepare?: Hook;
@@ -106,6 +108,10 @@ const actionPrepareReleaseHandler = async (
   Logger.success(
     `${options.changelogFile} updated! Be sure to review the changes before committing.`
   );
+
+  if (options.edit) {
+    openInEditor(options.changelogFile);
+  }
 };
 
 export const ActionPrepareRelease = handleHooks(

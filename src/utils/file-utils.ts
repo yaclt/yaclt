@@ -1,4 +1,5 @@
 import fs from "fs";
+import { spawn } from "child_process";
 
 export const readLines = (filePath: string): string[] =>
   fs
@@ -33,5 +34,11 @@ export const pathIsFile = (filePath: string): boolean => {
     return fs.statSync(filePath).isFile();
   } catch {
     return false;
+  }
+};
+
+export const openInEditor = (file: string): void => {
+  if (process.env["EDITOR"]) {
+    spawn(process.env["EDITOR"], [file], { stdio: "inherit" });
   }
 };
