@@ -1,9 +1,9 @@
-import { spawn } from "child_process";
 import fs from "fs";
 import git from "isomorphic-git";
 import { DateTime } from "luxon";
 import path from "path";
 import yargs from "yargs";
+import { openInEditor } from "../utils/file-utils";
 import { handleHooks, Hook } from "../utils/hook-handler";
 import { Logger } from "../utils/logger";
 import { toValidFilename } from "../utils/path-utils";
@@ -63,8 +63,8 @@ const actionNewHandler = async (options: ActionNewOptions): Promise<void> => {
   Logger.value(outputPath);
   Logger.success(`Changelog entry placeholder generated at ${outputPath}!`);
 
-  if (process.env["EDITOR"] && options.edit) {
-    spawn(process.env["EDITOR"], [outputPath], { stdio: "inherit" });
+  if (options.edit) {
+    openInEditor(outputPath);
   }
 };
 
