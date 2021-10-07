@@ -1,6 +1,6 @@
 import { arrayToMarkdownTable } from "../array-to-markdown-table";
 
-describe("tests arrayToMarkdownTable", () => {
+describe("arrayToMarkdownTable", () => {
   test("should throw exception for empty list", () => {
     const expectedErrorMessage =
       "Need at least 1 item to generate a markdown table from.";
