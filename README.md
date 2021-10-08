@@ -21,7 +21,7 @@ then use `yaclt` again to gather each individual entry into `CHANGELOG.md` as pa
 - Neovim plugin ([`yaclt.nvim`](https://github.com/yaclt/yaclt.nvim))
 - And more
 
-The full set of options for each command can be found in [COMMANDS.md](./docs/COMMANDS.md) or by running the command with the `--help` argument.
+The full set of options for each command can be found in the [documentation](https://yaclt.github.io/docs/yaclt/commands) or by running the command with the `--help` argument.
 
 ## Configuration
 
@@ -48,11 +48,11 @@ for example, if you'd like to write some custom logic to parse the next release 
 For options which are Handlebars templates (e.g. `--format`, `--releaseBranchPattern`, or `--changelogTemplate`), you may specify a filepath instead of a literal template string.
 The CLI will check if the argument is a filepath to a file that exists, and if so, read the template from that file.
 
-Documentation on customizing formats with Handlebars can be found in [handlebars-templates.md](./docs/handlebars-templates.md).
+Documentation on customizing formats with Handlebars can be found in the [documentation](https://yaclt.github.io/docs/yaclt/handlebars-templates).
 
 ### Configuration Recipes
 
-Some common configuration recipes can be found in the [wiki](https://github.com/mrjones2014/yaclt/wiki/Common-Configuration-Recipes).
+Some common configuration recipes can be found in the [documentation](https://yaclt.github.io/docs/yaclt/common-configuration-recipes).
 
 ## Contributing
 
