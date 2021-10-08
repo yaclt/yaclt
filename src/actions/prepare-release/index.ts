@@ -2,11 +2,10 @@ import fs from "fs";
 import git from "isomorphic-git";
 import path from "path";
 import yargs from "yargs";
-import { readLines, touchFile } from "../../utils/file-utils";
+import { openInEditor, readLines, touchFile } from "../../utils/file-utils";
 import { handleHooks, Hook } from "../../utils/hook-handler";
 import { Logger } from "../../utils/logger";
 import { formatToChangeTypeTemplate } from "../../utils/string-utils";
-import { openInEditor } from "../../utils/file-utils";
 import { compileTemplate } from "../../utils/template-utils";
 import { ActionOptions } from "../action-options";
 import { ActionValidate } from "../validate";
@@ -58,6 +57,13 @@ const actionPrepareReleaseHandler = async (
     const branchTemplate = compileTemplate(options.releaseBranchPattern);
     const branchName = branchTemplate({ releaseNumber: options.releaseNumber });
     try {
+      const allBranches = await git.listBranches({ fs, dir: process.cwd() });
+      if (allBranches.includes(branchName)) {
+        Logger.error(
+          `Failed to create release branch: branch '${branchName}' already exists.`
+        );
+        return;
+      }
       await git.branch({ fs, ref: branchName, dir: process.cwd() });
       await git.checkout({ fs, ref: branchName, dir: process.cwd() });
     } catch {
