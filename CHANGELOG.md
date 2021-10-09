@@ -1,3 +1,16 @@
+# Release 2.5.1 - 2021-10-08
+
+## IMPROVED
+
+- [IMPROVED] Add additional test coverage {#30}
+- [IMPROVED] Check if release branch exists before attempting to create it {#160}
+
+## NEW
+
+- [NEW] Add support for edit flag to prepare-release command {#129}
+
+---
+
 # Release 2.5.0 - 2021-10-04
 
 ## IMPROVED
