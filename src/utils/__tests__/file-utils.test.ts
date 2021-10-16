@@ -7,7 +7,6 @@ import {
   openInEditor,
 } from "../file-utils";
 import fs from "fs";
-import { emptyStatement } from "@babel/types";
 import { spawn } from "child_process";
 
 mock({
@@ -19,6 +18,8 @@ mock({
 jest.mock("child_process", () => ({
   spawn: jest.fn(),
 }));
+
+const emptyStatement = {};
 
 describe("readLines", () => {
   afterAll(() => {
