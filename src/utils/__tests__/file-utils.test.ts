@@ -24,6 +24,8 @@ const emptyStatement = {};
 describe("readLines", () => {
   afterAll(() => {
     jest.clearAllMocks();
+    jest.unmock("child_process");
+    jest.unmock("fs");
   });
 
   it("should read line and return a empty array for one line file", () => {
@@ -110,7 +112,11 @@ describe("pathIsFile", () => {
 });
 
 describe("openInEditor", () => {
-  const OLD_ENV = process.env;
+  let OLD_ENV: NodeJS.ProcessEnv;
+
+  beforeAll(() => {
+    OLD_ENV = process.env;
+  });
 
   beforeEach(() => {
     jest.clearAllMocks();

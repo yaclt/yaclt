@@ -15,7 +15,6 @@ jest.mock("../path-utils", () => ({
 }));
 
 describe("runAction", () => {
-  const OLD_ENV = process.env;
   const emptyStatement = "";
   const mockExit = jest.spyOn(process, "exit").mockImplementation(() => {
     throw new Error("error");
@@ -24,6 +23,12 @@ describe("runAction", () => {
     .spyOn(yargs, "exit")
     .mockImplementation(() => emptyStatement);
 
+  let OLD_ENV: NodeJS.ProcessEnv;
+
+  beforeAll(() => {
+    OLD_ENV = process.env;
+  });
+
   beforeEach(() => {
     jest.clearAllMocks();
     process.env = OLD_ENV;
@@ -31,6 +36,8 @@ describe("runAction", () => {
 
   afterAll(() => {
     process.env = OLD_ENV;
+    jest.unmock("../logger");
+    jest.unmock("../path-utils");
   });
 
   it("should call logger and complete action when YACLT_CONFIG_PATH is present", () => {
