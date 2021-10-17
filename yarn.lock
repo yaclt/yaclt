@@ -884,6 +884,13 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.5.tgz#1001cc5e6a3704b83c236027e77f2f58ea010f40"
   integrity sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==
 
+"@types/mock-fs@^4.13.1":
+  version "4.13.1"
+  resolved "https://registry.yarnpkg.com/@types/mock-fs/-/mock-fs-4.13.1.tgz#9201554ceb23671badbfa8ac3f1fa9e0706305be"
+  integrity sha512-m6nFAJ3lBSnqbvDZioawRvpLXSaPyn52Srf7OfzjubYbYX8MTUdIgDxQl0wEapm4m/pNYSd9TXocpQ0TvZFlYA==
+  dependencies:
+    "@types/node" "*"
+
 "@types/node@*":
   version "16.10.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.10.2.tgz#5764ca9aa94470adb4e1185fe2e9f19458992b2e"
@@ -2957,6 +2964,11 @@ minimisted@^2.0.0:
   integrity sha512-1oPjfuLQa2caorJUM8HV8lGgWCc0qqAO1MNv/k05G4qslmsndV/5WdNZrqCiyqiz3wohia2Ij2B7w2Dr7/IyrA==
   dependencies:
     minimist "^1.2.5"
+
+mock-fs@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/mock-fs/-/mock-fs-5.1.1.tgz#d4c95e916abf400664197079d7e399d133bb6048"
+  integrity sha512-p/8oZ3qvfKGPw+4wdVCyjDxa6wn2tP0TCf3WXC1UyUBAevezPn1TtOoxtMYVbZu/S/iExg+Ghed1busItj2CEw==
 
 mri@^1.1.5:
   version "1.1.6"

@@ -42,7 +42,24 @@ const hijackConsole = (): void => {
 let _logLevel = LogLevel.normal;
 const setLogLevel = (logLevel: LogLevel): LogLevel => {
   hijackConsole();
-  return (_logLevel = logLevel);
+  switch (logLevel) {
+    case LogLevel.none:
+      _logLevel = LogLevel.none;
+      break;
+    case LogLevel.values:
+      _logLevel = LogLevel.values;
+      break;
+    case LogLevel.normal:
+      _logLevel = LogLevel.normal;
+      break;
+    case LogLevel.verbose:
+      _logLevel = LogLevel.verbose;
+      break;
+    default:
+      _logLevel = LogLevel.normal;
+      break;
+  }
+  return _logLevel;
 };
 
 const value = (...data: unknown[]): void => {
