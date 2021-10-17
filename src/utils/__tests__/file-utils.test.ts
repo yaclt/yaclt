@@ -13,6 +13,7 @@ mock({
   "no-line.txt": "",
   "one-line.txt": "one line",
   "two-line.txt": "one line\ntwo line",
+  "mock-file-that-exist.txt": "",
 });
 
 jest.mock("child_process", () => ({
@@ -51,17 +52,12 @@ describe("file-utils", () => {
       jest.clearAllMocks();
     });
 
-    it("should call utimesSync with given file name", () => {
-      const mockUtimesSync = jest
-        .spyOn(fs, "utimesSync")
-        .mockImplementationOnce(() => emptyStatement);
+    it("should create file if that does not exist", () => {
+      expect(fs.existsSync("./create-file.txt")).toBe(false);
+
       touchFile("./create-file.txt");
 
-      expect(mockUtimesSync).toHaveBeenCalledWith(
-        "./create-file.txt",
-        expect.any(Date),
-        expect.any(Date)
-      );
+      expect(fs.existsSync("./create-file.txt")).toBe(true);
     });
 
     it("should call closeSync with given file name when UtimesSync throws error", () => {
@@ -75,7 +71,7 @@ describe("file-utils", () => {
       const mockOpenSync = jest
         .spyOn(fs, "openSync")
         .mockImplementationOnce(() => openSyncReturnValue);
-      expect(touchFile("./error-file.txt")).toBe(undefined);
+      expect(touchFile("./error-file.txt")).toBeUndefined();
 
       expect(mockOpenSync).toHaveBeenCalledWith("./error-file.txt", "w");
       expect(mockCloseSync).toHaveBeenCalledWith(openSyncReturnValue);
@@ -87,18 +83,12 @@ describe("file-utils", () => {
       jest.clearAllMocks();
     });
 
-    it("should return true if the file has access", () => {
-      jest.spyOn(fs, "accessSync").mockImplementationOnce(() => emptyStatement);
-
-      expect(isFilepath("./file-with-access.txt")).toEqual(true);
+    it("should return true when the file exists", () => {
+      expect(isFilepath("./mock-file-that-exist.txt")).toBeTruthy();
     });
 
-    it("should return false if the file has no access", () => {
-      jest.spyOn(fs, "accessSync").mockImplementationOnce(() => {
-        throw new Error("error");
-      });
-
-      expect(isFilepath("./file-without-access.txt")).toEqual(false);
+    it("should return false when the file does not exist", () => {
+      expect(isFilepath("./mock-file-that-does-not-exist.txt")).toBeFalsy();
     });
   });
 
@@ -107,12 +97,12 @@ describe("file-utils", () => {
       jest.clearAllMocks();
     });
 
-    it("should return true if the file exists", () => {
-      expect(pathIsFile("./no-line.txt")).toEqual(true);
+    it("should return true when the file exists", () => {
+      expect(pathIsFile("./mock-file-that-exist.txt")).toBeTruthy();
     });
 
-    it("should return false if the file does not exist", () => {
-      expect(pathIsFile("./file-without-access.txt")).toEqual(false);
+    it("should return false when the file does not exist", () => {
+      expect(pathIsFile("./mock-file-that-does-not-exist.txt")).toBeFalsy();
     });
   });
 
