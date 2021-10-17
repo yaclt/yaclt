@@ -7,34 +7,36 @@ jest.mock("../../../../utils/template-utils", () => ({
 }));
 describe("WithChangeTypeStrategy", () => {
   let withChangeTypeStrategy: WithChangeTypeStrategy;
-
+  const IMPROVED = "IMPROVED";
+  const NEW = "NEW";
+  const improvedMsg = "IMPROVED -m message";
   describe("processLine", () => {
     beforeEach(() => {
-      const template = "IMPROVED";
+      const template = IMPROVED;
       const options: CompileOptions = { noEscape: true, strict: true };
       const record = Handlebars.compile(template, options);
       withChangeTypeStrategy = new WithChangeTypeStrategy(record, [
-        "IMPROVED",
-        "NEW",
+        IMPROVED,
+        NEW,
       ]);
     });
 
     it("should create and add entry in case it finds proper template", () => {
-      withChangeTypeStrategy.processLine("IMPROVED -m message");
+      withChangeTypeStrategy.processLine(improvedMsg);
 
       expect(Reflect.get(withChangeTypeStrategy, "entryGroups")).toEqual([
-        { items: ["IMPROVED -m message"], label: "IMPROVED" },
+        { items: [improvedMsg], label: IMPROVED },
       ]);
     });
 
     it("should add entry to same label in case it finds proper template and label already exists", () => {
-      withChangeTypeStrategy.processLine("IMPROVED -m message");
+      withChangeTypeStrategy.processLine(improvedMsg);
       withChangeTypeStrategy.processLine("IMPROVED -m new message");
 
       expect(Reflect.get(withChangeTypeStrategy, "entryGroups")).toEqual([
         {
-          items: ["IMPROVED -m message", "IMPROVED -m new message"],
-          label: "IMPROVED",
+          items: [improvedMsg, "IMPROVED -m new message"],
+          label: IMPROVED,
         },
       ]);
     });
@@ -69,17 +71,17 @@ describe("WithChangeTypeStrategy", () => {
     });
 
     it("should call compileTemplate result with label item and release number if entry exist", () => {
-      withChangeTypeStrategy.processLine("IMPROVED -m message");
+      withChangeTypeStrategy.processLine(improvedMsg);
 
-      withChangeTypeStrategy.generate("IMPROVED", "1");
+      withChangeTypeStrategy.generate(IMPROVED, "1");
       expect(mockFn).toHaveBeenCalledWith({
-        entryGroups: [{ items: ["IMPROVED -m message"], label: "IMPROVED" }],
+        entryGroups: [{ items: [improvedMsg], label: IMPROVED }],
         releaseNumber: "1",
       });
     });
 
-    it("should call compileTemplate result with empty entrygroup and release number if entry does not exist", () => {
-      withChangeTypeStrategy.generate("IMPROVED", "1");
+    it("should call compileTemplate result with empty entrygroup and release number if entry does not exist but template exists", () => {
+      withChangeTypeStrategy.generate(IMPROVED, "1");
 
       expect(mockFn).toHaveBeenCalledWith({
         entryGroups: [],
@@ -87,7 +89,7 @@ describe("WithChangeTypeStrategy", () => {
       });
     });
 
-    it("should call compileTemplate result with empty entrygroup and release number if entry does not exist", () => {
+    it("should call compileTemplate result with empty entrygroup and release number if entry and template does not exist", () => {
       withChangeTypeStrategy.generate("SUCCESS", "1");
 
       expect(mockFn).toHaveBeenCalledWith({
