@@ -44,8 +44,8 @@ describe("Logger", () => {
       expect(Logger.setLogLevel(2)).toBe(LogLevel.verbose);
     });
 
-    it("should set log level to same value in case of non enum values", () => {
-      expect(Logger.setLogLevel(50)).toBe(50);
+    it("should set log level to normal in case of non enum values", () => {
+      expect(Logger.setLogLevel(50)).toBe(LogLevel.normal);
     });
   });
 
