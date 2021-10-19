@@ -9,17 +9,14 @@ jest.mock("../../../../utils/template-utils", () => ({
 describe("WithChangeTypeStrategy", () => {
   let withChangeTypeStrategy: WithChangeTypeStrategy;
   const add = "ADD";
-  const message = "MESSAGE";
+  const cmd = "CMD";
   const addMsg = "ADD -m message";
   describe("processLine", () => {
     beforeEach(() => {
       const template = add;
       const options: CompileOptions = { noEscape: true, strict: true };
       const record = Handlebars.compile(template, options);
-      withChangeTypeStrategy = new WithChangeTypeStrategy(record, [
-        add,
-        message,
-      ]);
+      withChangeTypeStrategy = new WithChangeTypeStrategy(record, [add, cmd]);
     });
 
     it("should add entry in case it finds proper template", () => {
@@ -36,7 +33,7 @@ describe("WithChangeTypeStrategy", () => {
 
     it("should throw error when changetype exists but cannot find template for the same", () => {
       expect(() =>
-        withChangeTypeStrategy.processLine("NEW -m message")
+        withChangeTypeStrategy.processLine("CMD -m message")
       ).toThrow("unable to parse change type");
     });
 
@@ -52,10 +49,7 @@ describe("WithChangeTypeStrategy", () => {
       const template = add;
       const options: CompileOptions = { noEscape: true, strict: true };
       const record = Handlebars.compile(template, options);
-      withChangeTypeStrategy = new WithChangeTypeStrategy(record, [
-        add,
-        message,
-      ]);
+      withChangeTypeStrategy = new WithChangeTypeStrategy(record, [add, cmd]);
       jest.clearAllMocks();
     });
 
