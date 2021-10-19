@@ -1,89 +1,79 @@
 import { WithChangeTypeStrategy } from "../with-change-type";
 import Handlebars from "handlebars";
 
-const mockFn = jest.fn();
+const mock = jest.fn<Handlebars.TemplateDelegate, []>();
 jest.mock("../../../../utils/template-utils", () => ({
-  compileTemplate: jest.fn(() => mockFn),
+  compileTemplate: jest.fn(() => mock),
 }));
+
 describe("WithChangeTypeStrategy", () => {
   let withChangeTypeStrategy: WithChangeTypeStrategy;
-  const IMPROVED = "IMPROVED";
-  const NEW = "NEW";
-  const improvedMsg = "IMPROVED -m message";
+  const add = "ADD";
+  const message = "MESSAGE";
+  const addMsg = "ADD -m message";
   describe("processLine", () => {
     beforeEach(() => {
-      const template = IMPROVED;
+      const template = add;
       const options: CompileOptions = { noEscape: true, strict: true };
       const record = Handlebars.compile(template, options);
       withChangeTypeStrategy = new WithChangeTypeStrategy(record, [
-        IMPROVED,
-        NEW,
+        add,
+        message,
       ]);
     });
 
-    it("should create and add entry in case it finds proper template", () => {
-      withChangeTypeStrategy.processLine(improvedMsg);
-
-      expect(Reflect.get(withChangeTypeStrategy, "entryGroups")).toEqual([
-        { items: [improvedMsg], label: IMPROVED },
-      ]);
+    it("should add entry in case it finds proper template", () => {
+      expect(withChangeTypeStrategy.processLine(addMsg)).toBeUndefined();
     });
 
     it("should add entry to same label in case it finds proper template and label already exists", () => {
-      withChangeTypeStrategy.processLine(improvedMsg);
-      withChangeTypeStrategy.processLine("IMPROVED -m new message");
+      withChangeTypeStrategy.processLine(addMsg);
 
-      expect(Reflect.get(withChangeTypeStrategy, "entryGroups")).toEqual([
-        {
-          items: [improvedMsg, "IMPROVED -m new message"],
-          label: IMPROVED,
-        },
-      ]);
+      expect(
+        withChangeTypeStrategy.processLine("ADD -m new message")
+      ).toBeUndefined();
     });
 
     it("should throw error when changetype exists but cannot find template for the same", () => {
       expect(() =>
         withChangeTypeStrategy.processLine("NEW -m message")
       ).toThrow("unable to parse change type");
-
-      expect(Reflect.get(withChangeTypeStrategy, "entryGroups")).toEqual([]);
     });
 
     it("should throw parsing error and should not add in case it doesn't find proper template", () => {
       expect(() =>
         withChangeTypeStrategy.processLine("SUCCESS -m message")
       ).toThrow("unable to parse change type");
-
-      expect(Reflect.get(withChangeTypeStrategy, "entryGroups")).toEqual([]);
     });
   });
 
   describe("generate", () => {
     beforeEach(() => {
-      const template = "IMPROVED";
+      const template = add;
       const options: CompileOptions = { noEscape: true, strict: true };
       const record = Handlebars.compile(template, options);
       withChangeTypeStrategy = new WithChangeTypeStrategy(record, [
-        "IMPROVED",
-        "NEW",
+        add,
+        message,
       ]);
-      mockFn.mockClear();
+      jest.clearAllMocks();
     });
 
     it("should call compileTemplate result with label item and release number if entry exist", () => {
-      withChangeTypeStrategy.processLine(improvedMsg);
-
-      withChangeTypeStrategy.generate(IMPROVED, "1");
-      expect(mockFn).toHaveBeenCalledWith({
-        entryGroups: [{ items: [improvedMsg], label: IMPROVED }],
+      withChangeTypeStrategy.processLine(addMsg);
+      const expectedObj = {
         releaseNumber: "1",
-      });
+        entryGroups: [{ items: [addMsg], label: add }],
+      };
+
+      withChangeTypeStrategy.generate(add, "1");
+      expect(mock).toHaveBeenCalledWith(expectedObj);
     });
 
     it("should call compileTemplate result with empty entrygroup and release number if entry does not exist but template exists", () => {
-      withChangeTypeStrategy.generate(IMPROVED, "1");
+      withChangeTypeStrategy.generate(add, "1");
 
-      expect(mockFn).toHaveBeenCalledWith({
+      expect(mock).toHaveBeenCalledWith({
         entryGroups: [],
         releaseNumber: "1",
       });
@@ -92,7 +82,7 @@ describe("WithChangeTypeStrategy", () => {
     it("should call compileTemplate result with empty entrygroup and release number if entry and template does not exist", () => {
       withChangeTypeStrategy.generate("SUCCESS", "1");
 
-      expect(mockFn).toHaveBeenCalledWith({
+      expect(mock).toHaveBeenCalledWith({
         entryGroups: [],
         releaseNumber: "1",
       });
