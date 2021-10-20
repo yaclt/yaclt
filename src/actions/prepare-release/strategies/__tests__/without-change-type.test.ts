@@ -6,7 +6,7 @@ jest.mock("../../../../utils/template-utils", () => ({
 }));
 describe("WithoutChangeTypeStrategy", () => {
   let withoutChangeTypeStrategy: WithoutChangeTypeStrategy;
-  const message = "standard message";
+  const entry = "standard entry";
 
   describe("processLine", () => {
     beforeEach(() => {
@@ -14,41 +14,29 @@ describe("WithoutChangeTypeStrategy", () => {
     });
 
     it("should add a line when lines is empty", () => {
-      expect(withoutChangeTypeStrategy.processLine(message)).toBeUndefined();
-    });
-
-    it("should add multiple same lines", () => {
-      withoutChangeTypeStrategy.processLine(message);
-
-      expect(withoutChangeTypeStrategy.processLine(message)).toBeUndefined();
-    });
-
-    it("should add multiple different lines", () => {
-      withoutChangeTypeStrategy.processLine(message);
-
-      expect(withoutChangeTypeStrategy.processLine("message")).toBeUndefined();
+      expect(() => withoutChangeTypeStrategy.processLine(entry)).not.toThrow();
     });
   });
 
   describe("generate", () => {
-    const RANDOM = "RANDOM";
+    const newTemplate = "[NEW]";
     beforeEach(() => {
       withoutChangeTypeStrategy = new WithoutChangeTypeStrategy();
       mock.mockClear();
     });
 
     it("should call compileTemplate result with message and release number if entry exist", () => {
-      withoutChangeTypeStrategy.processLine(message);
+      withoutChangeTypeStrategy.processLine(entry);
 
-      withoutChangeTypeStrategy.generate(RANDOM, "1");
+      withoutChangeTypeStrategy.generate(newTemplate, "1");
       expect(mock).toHaveBeenCalledWith({
-        entries: [message],
+        entries: [entry],
         releaseNumber: "1",
       });
     });
 
     it("should call compileTemplate result with empty entries and release number if entry does not exist but template exists", () => {
-      withoutChangeTypeStrategy.generate(RANDOM, "1");
+      withoutChangeTypeStrategy.generate(newTemplate, "1");
 
       expect(mock).toHaveBeenCalledWith({ entries: [], releaseNumber: "1" });
     });
