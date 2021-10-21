@@ -39,7 +39,7 @@ describe("WithChangeTypeStrategy", () => {
 
   describe("generate", () => {
     beforeEach(() => {
-      const template = newTag;
+      const template = "[{{changeType}}]";
       const options: CompileOptions = { noEscape: true, strict: true };
       const compiledTemplate = Handlebars.compile(template, options);
       withChangeTypeStrategy = new WithChangeTypeStrategy(compiledTemplate, [
