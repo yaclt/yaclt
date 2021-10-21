@@ -10,12 +10,14 @@ describe("WithChangeTypeStrategy", () => {
   let withChangeTypeStrategy: WithChangeTypeStrategy;
   const newTag = "NEW";
   const entry = "[NEW] This is a entry";
+  const template = "[{{changeType}}]";
   describe("processLine", () => {
     beforeEach(() => {
-      const template = "[{{changeType}}]";
       const options: CompileOptions = { noEscape: true, strict: true };
-      const record = Handlebars.compile(template, options);
-      withChangeTypeStrategy = new WithChangeTypeStrategy(record, [newTag]);
+      const compiledTemplate = Handlebars.compile(template, options);
+      withChangeTypeStrategy = new WithChangeTypeStrategy(compiledTemplate, [
+        newTag,
+      ]);
     });
 
     it("should add entry in case it finds proper template", () => {
@@ -39,8 +41,10 @@ describe("WithChangeTypeStrategy", () => {
     beforeEach(() => {
       const template = newTag;
       const options: CompileOptions = { noEscape: true, strict: true };
-      const record = Handlebars.compile(template, options);
-      withChangeTypeStrategy = new WithChangeTypeStrategy(record, [newTag]);
+      const compiledTemplate = Handlebars.compile(template, options);
+      withChangeTypeStrategy = new WithChangeTypeStrategy(compiledTemplate, [
+        newTag,
+      ]);
       jest.clearAllMocks();
     });
 
@@ -51,21 +55,12 @@ describe("WithChangeTypeStrategy", () => {
         entryGroups: [{ items: [entry], label: newTag }],
       };
 
-      withChangeTypeStrategy.generate(newTag, "1");
+      withChangeTypeStrategy.generate(template, "1");
       expect(mock).toHaveBeenCalledWith(expectedObj);
     });
 
     it("should call compileTemplate result with empty entrygroup and release number if entry does not exist but tag exists", () => {
-      withChangeTypeStrategy.generate(newTag, "1");
-
-      expect(mock).toHaveBeenCalledWith({
-        entryGroups: [],
-        releaseNumber: "1",
-      });
-    });
-
-    it("should call compileTemplate result with empty entrygroup and release number if entry and tag does not exist", () => {
-      withChangeTypeStrategy.generate("SUCCESS", "1");
+      withChangeTypeStrategy.generate(template, "1");
 
       expect(mock).toHaveBeenCalledWith({
         entryGroups: [],

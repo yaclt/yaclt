@@ -19,7 +19,7 @@ describe("WithoutChangeTypeStrategy", () => {
   });
 
   describe("generate", () => {
-    const newTag = "NEW";
+    const template = "[{{changeType}}]";
     beforeEach(() => {
       withoutChangeTypeStrategy = new WithoutChangeTypeStrategy();
       mock.mockClear();
@@ -28,15 +28,15 @@ describe("WithoutChangeTypeStrategy", () => {
     it("should call compileTemplate result with message and release number if entry exist", () => {
       withoutChangeTypeStrategy.processLine(entry);
 
-      withoutChangeTypeStrategy.generate(newTag, "1");
+      withoutChangeTypeStrategy.generate(template, "1");
       expect(mock).toHaveBeenCalledWith({
         entries: [entry],
         releaseNumber: "1",
       });
     });
 
-    it("should call compileTemplate result with empty entries and release number if entry does not exist but template exists", () => {
-      withoutChangeTypeStrategy.generate(newTag, "1");
+    it("should call compileTemplate result with empty entries and release number if entry does not exist", () => {
+      withoutChangeTypeStrategy.generate(template, "1");
 
       expect(mock).toHaveBeenCalledWith({ entries: [], releaseNumber: "1" });
     });
