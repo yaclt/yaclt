@@ -1,3 +1,17 @@
+# Release 2.5.2 - 2021-11-17
+
+## IMPROVED
+
+- [IMPROVED] Added additional tests for utils module {#30}
+- [IMPROVED] Add additional tests for utils module {#30}
+- [IMPROVED] Add test for strategies module {#30}
+
+## FIXED
+
+- [FIXED] Fixed `$EDITOR` handling when it contains arguments (e.g. `EDITOR="code --wait"`) {#183}
+
+---
+
 # Release 2.5.1 - 2021-10-08
 
 ## IMPROVED

@@ -1,6 +1,6 @@
 {
   "name": "yaclt",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "description": "Yet Another Change Log Tool",
   "main": "index.js",
   "bin": "dist/index.js",
