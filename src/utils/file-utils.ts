@@ -1,5 +1,5 @@
-import fs from "fs";
 import { spawn } from "child_process";
+import fs from "fs";
 
 export const readLines = (filePath: string): string[] =>
   fs
@@ -37,8 +37,32 @@ export const pathIsFile = (filePath: string): boolean => {
   }
 };
 
+const parseEditorArgs = (
+  editorString: string
+): { cmd: string; args: string[] } => {
+  if (!editorString.includes(" ")) {
+    return { cmd: editorString, args: [] };
+  }
+
+  // split at space, unless the space is quoted
+  const parts = editorString.split(/ +(?=(?:(?:[^"]*"){2})*[^"]*$)/g);
+  if (parts.length === 0) {
+    return { cmd: editorString, args: [] };
+  }
+
+  if (parts.length == 1) {
+    return { cmd: parts[0] ?? editorString, args: [] };
+  }
+
+  const cmd = parts[0] ?? editorString;
+  const args = parts.slice(1);
+  return { cmd, args };
+};
+
 export const openInEditor = (file: string): void => {
   if (process.env["EDITOR"]) {
-    spawn(process.env["EDITOR"], [file], { stdio: "inherit" });
+    const { cmd, args } = parseEditorArgs(process.env["EDITOR"]);
+    args.push(file);
+    spawn(cmd, args, { stdio: "inherit" });
   }
 };
