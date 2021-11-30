@@ -1,3 +1,11 @@
+# Release 2.5.3 - 2021-11-30
+
+## FIXED
+
+- [FIXED] Trim extra newlines from end of default template {#185}
+
+---
+
 # Release 2.5.2 - 2021-11-17
 
 ## IMPROVED
