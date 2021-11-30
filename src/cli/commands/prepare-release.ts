@@ -29,7 +29,6 @@ const defaultChangelogTemplate = `# Release {{releaseNumber}} - {{currentDateTim
 
 {{/each}}
 ---
-
 `;
 
 export const PrepareReleaseCommand: CommandModule<
