@@ -24,6 +24,7 @@ export interface ActionPrepareReleaseOptions extends ActionOptions {
   postValidate?: Hook;
   prePrepare?: Hook;
   postPrepare?: Hook;
+  dryRun?: boolean;
 }
 
 const actionPrepareReleaseHandler = async (
@@ -72,6 +73,10 @@ const actionPrepareReleaseHandler = async (
       yargs.exit(1, new Error(message));
       return;
     }
+  }
+
+  if (options.dryRun) {
+    Logger.info("test");
   }
 
   const fileNames = fs.readdirSync(options.logsDir);
