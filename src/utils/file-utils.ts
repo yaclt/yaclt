@@ -9,8 +9,10 @@ export const readLines = (filePath: string): string[] =>
     .split("\n")
     .filter(Boolean);
 
-export const getChangelogEntryFilenames = (): string[] => {
-  return [""];
+export const getChangelogEntryFilenames = (dir: string): string[] => {
+  return fs
+    .readdirSync(dir)
+    .filter((fileName: string) => fileName.endsWith(".md"));
 };
 
 export const touchFile = (filePath: string): void => {

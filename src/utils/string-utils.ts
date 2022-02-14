@@ -43,6 +43,27 @@ export const formatToChangeTypeTemplate = (
   return compileTemplate(changeTypeHandlebars);
 };
 
+export const dryRunTemplate = (
+  filesToBeDeleted: string[],
+  globalChangelogFilename: string,
+  globalChangelogAdditions: string
+): string => {
+  const template = compileTemplate(`Files to be deleted:
+{{#each filesToBeDeleted}}
+- {{this}}
+{{/each}}
+  
+{{globalChangelogFilename}} changes:
+  
+{{globalChangelogAdditions}}`);
+
+  return template({
+    filesToBeDeleted: filesToBeDeleted,
+    globalChangelogFilename: globalChangelogFilename,
+    globalChangelogAdditions: globalChangelogAdditions,
+  });
+};
+
 export const camelToKebabCase = (str: string): string =>
   str
     .split("")
