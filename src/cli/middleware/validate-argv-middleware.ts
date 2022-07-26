@@ -43,7 +43,10 @@ export const ValidateArgvMiddleware: MiddlewareHandler = {
       if (
         allValidOptions.every(
           (optionName: string) =>
-            optionName !== key && optionName !== convertedKey
+            optionName !== key &&
+            optionName !== convertedKey &&
+            kebabToCamelCase(optionName) !== key &&
+            kebabToCamelCase(optionName) !== convertedKey
         )
       ) {
         invalidOptions.push(key);

@@ -32,7 +32,7 @@ export interface ActionPrepareReleaseOptions extends ActionOptions {
   postValidate?: Hook;
   prePrepare?: Hook;
   postPrepare?: Hook;
-  dryRun?: boolean;
+  ["dry-run"]?: boolean;
 }
 
 const actionPrepareReleaseHandler = async (
@@ -109,7 +109,7 @@ const actionPrepareReleaseHandler = async (
   const existingContents = fs.readFileSync(options.changelogFile).toString();
   const newContents = `${changelogAddition}\n${existingContents}`;
 
-  if (options.dryRun) {
+  if (options["dry-run"]) {
     const changeLogEntryFilenames = getChangelogEntryFilenames(options.logsDir);
     const dryRunLogOutput = dryRunTemplate(
       changeLogEntryFilenames,
