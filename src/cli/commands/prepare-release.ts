@@ -18,7 +18,7 @@ export interface PrepareReleaseCommandOptions extends GlobalArgv {
   postValidate?: Hook;
   prePrepare?: Hook;
   postPrepare?: Hook;
-  ["dry-run"]?: boolean;
+  dryRun?: boolean;
 }
 
 const defaultChangelogTemplate = `# Release {{releaseNumber}} - {{currentDateTime "ISODate"}}
@@ -78,7 +78,7 @@ export const PrepareReleaseCommand: CommandModule<
       demandOption: false,
       hidden: true,
     },
-    ["dry-run"]: {
+    dryRun: {
       describe: "Print out changes to be made without writing them.",
       type: "boolean",
       demandOption: false,
@@ -101,7 +101,7 @@ export const PrepareReleaseCommand: CommandModule<
         postValidate: argv.postValidate,
         prePrepare: argv.prePrepare,
         postPrepare: argv.postPrepare,
-        "dry-run": argv["dry-run"],
+        dryRun: argv.dryRun,
         releaseNumber: argv.releaseNumber,
         template: argv.changelogTemplate,
       };

@@ -25,11 +25,11 @@ export const LogLevelMiddleware: MiddlewareHandler = {
     }
 
     if (
-      argv[nameof<PrepareReleaseCommandOptions>("dry-run")] &&
+      argv[nameof<PrepareReleaseCommandOptions>("dryRun")] &&
       argv[nameof<GlobalArgv>("quiet")]
     ) {
       Logger.setLogLevel(LogLevel.normal);
-      const message = "Passing both --dry-run and --quiet is contradictory.";
+      const message = "Passing both --dryRun and --quiet is contradictory.";
       Logger.error(message);
       yargs.exit(1, new Error(message));
       process.exit(1);
