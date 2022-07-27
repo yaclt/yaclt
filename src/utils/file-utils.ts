@@ -9,6 +9,9 @@ export const readLines = (filePath: string): string[] =>
     .split("\n")
     .filter(Boolean);
 
+export const getChangelogEntryFilenames = (dir: string): string[] =>
+  fs.readdirSync(dir).filter((fileName: string) => fileName.endsWith(".md"));
+
 export const touchFile = (filePath: string): void => {
   // see https://remarkablemark.org/blog/2017/12/17/touch-file-nodejs/#touch-file
   const time = new Date();

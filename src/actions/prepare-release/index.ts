@@ -2,10 +2,18 @@ import fs from "fs";
 import git from "isomorphic-git";
 import path from "path";
 import yargs from "yargs";
-import { openInEditor, readLines, touchFile } from "../../utils/file-utils";
+import {
+  getChangelogEntryFilenames,
+  openInEditor,
+  readLines,
+  touchFile,
+} from "../../utils/file-utils";
 import { handleHooks, Hook } from "../../utils/hook-handler";
 import { Logger } from "../../utils/logger";
-import { formatToChangeTypeTemplate } from "../../utils/string-utils";
+import {
+  dryRunTemplate,
+  formatToChangeTypeTemplate,
+} from "../../utils/string-utils";
 import { compileTemplate } from "../../utils/template-utils";
 import { ActionOptions } from "../action-options";
 import { ActionValidate } from "../validate";
@@ -24,6 +32,7 @@ export interface ActionPrepareReleaseOptions extends ActionOptions {
   postValidate?: Hook;
   prePrepare?: Hook;
   postPrepare?: Hook;
+  dryRun?: boolean;
 }
 
 const actionPrepareReleaseHandler = async (
@@ -99,24 +108,35 @@ const actionPrepareReleaseHandler = async (
   );
   const existingContents = fs.readFileSync(options.changelogFile).toString();
   const newContents = `${changelogAddition}\n${existingContents}`;
-  fs.writeFileSync(options.changelogFile, newContents);
 
-  // remove all markdown files in logsDir
-  fs.readdirSync(options.logsDir)
-    .filter((fileName: string) => fileName.endsWith(".md"))
-    .map((file: string) => fs.unlinkSync(path.join(options.logsDir, file)));
+  if (options.dryRun) {
+    const changeLogEntryFilenames = getChangelogEntryFilenames(options.logsDir);
+    const dryRunLogOutput = dryRunTemplate(
+      changeLogEntryFilenames,
+      options.changelogFile,
+      changelogAddition
+    );
+    Logger.success(dryRunLogOutput);
+  } else {
+    fs.writeFileSync(options.changelogFile, newContents);
 
-  if (options.plumbing) {
-    return;
-  }
+    // remove all markdown files in logsDir
+    fs.readdirSync(options.logsDir)
+      .filter((fileName: string) => fileName.endsWith(".md"))
+      .map((file: string) => fs.unlinkSync(path.join(options.logsDir, file)));
 
-  Logger.value(options.changelogFile);
-  Logger.success(
-    `${options.changelogFile} updated! Be sure to review the changes before committing.`
-  );
+    if (options.plumbing) {
+      return;
+    }
 
-  if (options.edit) {
-    openInEditor(options.changelogFile);
+    Logger.value(options.changelogFile);
+    Logger.success(
+      `${options.changelogFile} updated! Be sure to review the changes before committing.`
+    );
+
+    if (options.edit) {
+      openInEditor(options.changelogFile);
+    }
   }
 };
 

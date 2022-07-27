@@ -2,6 +2,7 @@ import yargs from "yargs";
 import { Logger, LogLevel } from "../../utils/logger";
 import { nameof } from "../../utils/nameof";
 import { FunctionArg } from "../../utils/type-utils";
+import { PrepareReleaseCommandOptions } from "../commands/prepare-release";
 import { GlobalArgv } from "../options";
 import { MiddlewareHandler } from "./middleware-handler";
 
@@ -18,6 +19,17 @@ export const LogLevelMiddleware: MiddlewareHandler = {
     ) {
       Logger.setLogLevel(LogLevel.normal);
       const message = "Passing both --verbose and --quiet is contradictory.";
+      Logger.error(message);
+      yargs.exit(1, new Error(message));
+      process.exit(1);
+    }
+
+    if (
+      argv[nameof<PrepareReleaseCommandOptions>("dryRun")] &&
+      argv[nameof<GlobalArgv>("quiet")]
+    ) {
+      Logger.setLogLevel(LogLevel.normal);
+      const message = "Passing both --dryRun and --quiet is contradictory.";
       Logger.error(message);
       yargs.exit(1, new Error(message));
       process.exit(1);
